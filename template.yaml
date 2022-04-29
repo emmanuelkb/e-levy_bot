@@ -10,7 +10,7 @@ Globals:
         db_user: DEVOPS-PLAYGROUND-DB-USER
         db_pswd: DEVOPS-PLAYGROUND-DB-PSWD
         db: DEVOPS-PLAYGROUND-DB
-
+Resources:
   PlatformConsumer:
     Type: AWS::Serverless::Function
     Properties:
