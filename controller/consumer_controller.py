@@ -3,8 +3,11 @@ from utility.helpers import data_utils
 
 def insert_transactions_from_queue(db_module, transactions):
     if transactions:
-        records = transactions['records']
-        headers, str_fmt, data = process_transactions(records)
+        headers, str_fmt, data = process_transactions(transactions)
+        print(headers)
+        print(str_fmt)
+        print(data)
+        # exit()
         rows = db_module.insert_records(data, headers, str_fmt)
         return rows
 

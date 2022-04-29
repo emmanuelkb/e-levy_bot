@@ -24,9 +24,7 @@ class SQS:
 
     def send_message(self, msg):
         try:
-            response = self.client.send_message(QueueUrl=self.queue_url, MessageBody=json.dumps(msg, default=str),
-                                                MessageGroupId=str(msg['meta_base']['base_id']),
-                                                MessageDeduplicationId=str(uuid.uuid4()))
+            response = self.client.send_message(QueueUrl=self.queue_url, MessageBody=json.dumps(msg, default=str))
             # print(f"messageId: {response['MessageId']}")
             return True
         except Exception as error:
