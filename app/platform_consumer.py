@@ -6,7 +6,6 @@ db_module = base.db_session()
 
 
 def lambda_handler(event, context=None):
-    # Get records from queue
     print(event)
     records = event['Records']
     print(records)
