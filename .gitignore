@@ -1,0 +1,6 @@
+test.py
+.idea
+.DS_Store
+.debug
+*/*/__pycache__
+*/__pycache__
