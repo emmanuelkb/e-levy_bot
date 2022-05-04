@@ -8,7 +8,5 @@ class DBModule(db_module.DBModule):
 
     def insert_records(self, values, headers, str_values):
         query = f"""insert ignore into platform.trans{headers} values {str_values} """
-        print(query)
-        exit()
         rows = self.queryForBulkInsert(query, values)
         return rows
