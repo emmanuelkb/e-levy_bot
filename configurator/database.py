@@ -20,11 +20,11 @@ class Configurator(object):
             # "db_pswd": self.param_store_agent.getParameter(os.environ["db_pswd"]),
             # "db": self.param_store_agent.getParameter(os.environ["db"]),
             # "db_read_host": self.param_store_agent.getParameter(os.environ["db_read_host"])
-            "db_host": os.environ["db_host"],
-            "db_user": os.environ["db_user"],
-            "db_pswd": os.environ["db_pswd"],
-            "db": os.environ["db"],
-            "db_read_host": os.environ["db_read_host"]
+            "db_host": "54.78.151.79",
+            "db_user": "emmanuel",
+            "db_pswd": "Emmanuel1234!@#$",
+            "db": "data",
+            "db_read_host": "54.78.151.79"
         }
 
     def getDBCredentials(self):
