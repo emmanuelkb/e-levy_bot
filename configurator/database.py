@@ -21,7 +21,7 @@ class Configurator(object):
             # "db": self.param_store_agent.getParameter(os.environ["db"]),
             # "db_read_host": self.param_store_agent.getParameter(os.environ["db_read_host"])
             "db_host": os.environ["db_host"],
-            "db_user":os.environ["db_user"],
+            "db_user": os.environ["db_user"],
             "db_pswd": os.environ["db_pswd"],
             "db": os.environ["db"],
             "db_read_host": os.environ["db_read_host"]
