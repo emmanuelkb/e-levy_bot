@@ -1,17 +1,17 @@
 from utility.helpers import data_utils
 import pandas
-from datetime import datetime,timezone
+from datetime import datetime, timezone
 
 
 def insert_transactions_from_queue(db_module, cw_logger, transactions):
     if transactions:
         columns, values = process_dataframe(transactions)
         headers, str_fmt, data = process_transactions(columns, values)
-        cw_logger.writeLog(str(len(data)) + " transactions have being inserted into platform db at " +
-                           str(datetime.now().replace(tzinfo=timezone.utc).strftime("%Y-%m-%d %H:%M:%S")))
+        cw_logger.write_single_log_event(str(len(data)) + " transactions have being inserted into platform db at " +
+                                         str(datetime.now().replace(tzinfo=timezone.utc).strftime("%Y-%m-%d %H:%M:%S")))
         rows = db_module.insert_records(data, headers, str_fmt)
-        cw_logger.writeLog(str(rows) + " transactions inserted into platform db at " +
-                           str(datetime.now().replace(tzinfo=timezone.utc).strftime("%Y-%m-%d %H:%M:%S")))
+        cw_logger.write_single_log_event(str(rows) + " transactions inserted into platform db at " +
+                                         str(datetime.now().replace(tzinfo=timezone.utc).strftime("%Y-%m-%d %H:%M:%S")))
         return rows
 
 
@@ -30,7 +30,7 @@ def process_dataframe(list_of_dicts):
     df = pandas.DataFrame(list_of_dicts, columns=fields)
     df.rename({'trans_id': 'trans_id', 'merchant_id': 'inst_id', 'product_id': 'desc_id', 'service_code': 'alt5',
                'payee_id': 'alt1', 'payee_name': 'payer_name', 'cr_account_no': 'account_no',
-               'trans_type': 'alt4', 'date_created': 'date_created','date_posted': 'date_processed',
+               'trans_type': 'alt4', 'date_created': 'date_created', 'date_posted': 'date_processed',
                'time_posted': 'processing_time', 'currency': 'currency',
                'amount': 'amount', 'fee': 'subscription', 'payer_mobile': 'mobile', 'payer_email': 'email',
                'trans_desc': 'alt2', 'up_status': 'up_status', 'source_trans_id': 'bank_trans_id', 'accountcode': 'alt3'
