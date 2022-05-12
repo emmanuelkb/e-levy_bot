@@ -1,12 +1,17 @@
 from utility.helpers import data_utils
 import pandas
+from datetime import datetime,timezone
 
 
-def insert_transactions_from_queue(db_module, transactions):
+def insert_transactions_from_queue(db_module, cw_logger, transactions):
     if transactions:
         columns, values = process_dataframe(transactions)
         headers, str_fmt, data = process_transactions(columns, values)
+        cw_logger.writeLog(str(len(data)) + " transactions have being inserted into platform db at " +
+                           str(datetime.now().replace(tzinfo=timezone.utc).strftime("%Y-%m-%d %H:%M:%S")))
         rows = db_module.insert_records(data, headers, str_fmt)
+        cw_logger.writeLog(str(rows) + " transactions inserted into platform db at " +
+                           str(datetime.now().replace(tzinfo=timezone.utc).strftime("%Y-%m-%d %H:%M:%S")))
         return rows
 
 
