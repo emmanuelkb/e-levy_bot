@@ -30,3 +30,7 @@ Resources:
             Queue: 'arn:aws:sqs:eu-west-1:727804883967:platform-data-aggregation-test'
             BatchSize: 10
             Enabled: true
+      Environment:
+        Variables:
+          log_grp: testloggroup
+          log_stream: platform-consumer
