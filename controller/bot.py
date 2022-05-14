@@ -5,6 +5,7 @@ import re
 def get_mentions(twitter_module):
     time = {'start_time': (datetime.utcnow() - timedelta(minutes=2)).strftime('%Y-%m-%dT%H:%M:%SZ')}
     response = twitter_module.get_mentions(time)
+    print(response)
     if response['meta']['result_count'] == 0:
         return
     mentions = response['data']
