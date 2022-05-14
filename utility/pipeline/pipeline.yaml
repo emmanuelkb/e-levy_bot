@@ -38,62 +38,62 @@ Resources:
               Value: !Ref AWS::StackName
             -
               Key: "Project"
-              Value: platform-consumer
+              Value: elevey-bot
         DeletionPolicy: Retain
         UpdateReplacePolicy: Retain
 
-########  ##     ## #### ##       ########  
-##     ## ##     ##  ##  ##       ##     ## 
-##     ## ##     ##  ##  ##       ##     ## 
-########  ##     ##  ##  ##       ##     ## 
-##     ## ##     ##  ##  ##       ##     ## 
-##     ## ##     ##  ##  ##       ##     ## 
-########   #######  #### ######## ########  
+########  ##     ## #### ##       ########
+##     ## ##     ##  ##  ##       ##     ##
+##     ## ##     ##  ##  ##       ##     ##
+########  ##     ##  ##  ##       ##     ##
+##     ## ##     ##  ##  ##       ##     ##
+##     ## ##     ##  ##  ##       ##     ##
+########   #######  #### ######## ########
 
     CodeBuildProject:
         Type: AWS::CodeBuild::Project
         Properties:
-            Name: platform-consumer
-            Description: Build project for the platform-consumer
+            Name: elevey-bot
+            Description: Build project for the elevey-bot
             Artifacts:
               Type: CODEPIPELINE
-            Environment: 
+            Environment:
                 Type: LINUX_CONTAINER
                 ComputeType: BUILD_GENERAL1_SMALL
                 Image: aws/codebuild/amazonlinux2-x86_64-standard:2.0 # More info on Images: https://docs.aws.amazon.com/codebuild/latest/userguide/build-env-ref-available.html
                 EnvironmentVariables:
-                  - 
+                  -
                     Name: BUILD_OUTPUT_BUCKET
                     Value: !Ref BuildArtifactsBucket
             Cache:
               Type: S3
               Location: !Sub ${BuildArtifactsBucket}/codebuild-cache
             ServiceRole: !GetAtt CodeBuildServiceRole.Arn
-            Source: 
+            Source:
                 Type: CODEPIPELINE
-            Tags: 
-              - 
+            Tags:
+              -
                 Key: "Stack"
                 Value: !Ref AWS::StackName
               -
                 Key: "Project"
-                Value: platform-consumer
+                Value: elevey-bot
 
-########  #### ########  ######## ##       #### ##    ## ######## 
-##     ##  ##  ##     ## ##       ##        ##  ###   ## ##       
-##     ##  ##  ##     ## ##       ##        ##  ####  ## ##       
-########   ##  ########  ######   ##        ##  ## ## ## ######   
-##         ##  ##        ##       ##        ##  ##  #### ##       
-##         ##  ##        ##       ##        ##  ##   ### ##       
-##        #### ##        ######## ######## #### ##    ## ######## 
+########  #### ########  ######## ##       #### ##    ## ########
+##     ##  ##  ##     ## ##       ##        ##  ###   ## ##
+##     ##  ##  ##     ## ##       ##        ##  ####  ## ##
+########   ##  ########  ######   ##        ##  ## ## ## ######
+##         ##  ##        ##       ##        ##  ##  #### ##
+##         ##  ##        ##       ##        ##  ##   ### ##
+##        #### ##        ######## ######## #### ##    ## ########
 
     Pipeline:
         Type: AWS::CodePipeline::Pipeline
         Properties:
-            ArtifactStore: 
+            ArtifactStore:
                 Location: !Ref BuildArtifactsBucket
                 Type: S3
-            Name: platform-consumer
+            Name: elevey-bot
             RoleArn: !GetAtt CodePipelineExecutionRole.Arn
             Stages:
                 - Name: Source
@@ -106,7 +106,7 @@ Resources:
                         Provider: CodeCommit
                         Version: "1"
                       Configuration:
-                        RepositoryName: platform-consumer
+                        RepositoryName: elevey-bot
                         BranchName: master
                       OutputArtifacts:
                         - Name: SourceCodeAsZip
@@ -137,8 +137,8 @@ Resources:
                       # More info on Possible Values for Cloudformation: https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/continuous-delivery-codepipeline-action-reference.html#w2ab2c13c13b9
                         ActionMode: CHANGE_SET_REPLACE
                         RoleArn: !GetAtt CloudFormationExecutionRole.Arn
-                        StackName: platform-consumer-dev
-                        ChangeSetName: platform-consumer-ChangeSet-DEV
+                        StackName: elevey-bot-dev
+                        ChangeSetName: elevey-bot-ChangeSet-DEV
                         TemplatePath: BuildArtifactAsZip::packaged.yaml
                         Capabilities: CAPABILITY_IAM
                       InputArtifacts:
@@ -153,10 +153,10 @@ Resources:
                       Configuration:
                         ActionMode: CHANGE_SET_EXECUTE
                         RoleArn: !GetAtt CloudFormationExecutionRole.Arn
-                        StackName: platform-consumer-dev
-                        ChangeSetName: platform-consumer-ChangeSet-DEV
+                        StackName: elevey-bot-dev
+                        ChangeSetName: elevey-bot-ChangeSet-DEV
                       OutputArtifacts:
-                        - Name: platform-consumerDEVChangeSet
+                        - Name: elevey-botDEVChangeSet
                       RunOrder: 2
 #                 - Name: Prod
 #                   Actions:
@@ -183,8 +183,8 @@ Resources:
 #                       # More info on Possible Values for Cloudformation: https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/continuous-delivery-codepipeline-action-reference.html#w2ab2c13c13b9
 #                         ActionMode: CHANGE_SET_REPLACE
 #                         RoleArn: !GetAtt CloudFormationExecutionRole.Arn
-#                         StackName: platform-consumer-prod
-#                         ChangeSetName: platform-consumer-ChangeSet-PROD
+#                         StackName: elevey-bot-prod
+#                         ChangeSetName: elevey-bot-ChangeSet-PROD
 #                         TemplatePath: BuildProdArtifactAsZip::live-packaged.yaml
 #                         Capabilities: CAPABILITY_IAM
 #                       InputArtifacts:
@@ -199,10 +199,10 @@ Resources:
 #                       Configuration:
 #                         ActionMode: CHANGE_SET_EXECUTE
 #                         RoleArn: !GetAtt CloudFormationExecutionRole.Arn
-#                         StackName: platform-consumer-prod
-#                         ChangeSetName: platform-consumer-ChangeSet-PROD
+#                         StackName: elevey-bot-prod
+#                         ChangeSetName: elevey-bot-ChangeSet-PROD
 #                       OutputArtifacts:
-#                         - Name: platform-consumerPRODChangeSet
+#                         - Name: elevey-botPRODChangeSet
 #                       RunOrder: 3
 
 ####    ###    ##     ##
@@ -238,8 +238,8 @@ Resources:
                           - 'logs:CreateLogStream'
                           - 'logs:PutLogEvents'
                         Resource:
-                          - !Sub 'arn:aws:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/codebuild/platform-consumer'
-                          - !Sub 'arn:aws:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/codebuild/platform-consumer:*'
+                          - !Sub 'arn:aws:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/codebuild/elevey-bot'
+                          - !Sub 'arn:aws:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/codebuild/elevey-bot:*'
                 - PolicyName: CodeBuildArtifactsBucket
                   PolicyDocument:
                     Version: '2012-10-17'
@@ -315,7 +315,7 @@ Resources:
                       -
                         Effect: Allow
                         Action: 'codecommit:*'
-                        Resource: !Sub 'arn:aws:codecommit:${AWS::Region}:${AWS::AccountId}:platform-consumer'
+                        Resource: !Sub 'arn:aws:codecommit:${AWS::Region}:${AWS::AccountId}:elevey-bot'
 
                 - PolicyName: CodePipelineCodeBuildAndCloudformationAccess
                   PolicyDocument:
@@ -329,9 +329,9 @@ Resources:
                         Resource:
                           - !Sub 'arn:aws:codebuild:${AWS::Region}:${AWS::AccountId}:project/${CodeBuildProject}'
                           - 'arn:aws:codebuild:eu-west-1:693047463101:project/live-python-serverless'
-                      - 
+                      -
                         Effect: Allow
-                        Action: 
+                        Action:
                           - 'cloudformation:CreateStack'
                           - 'cloudformation:DescribeStacks'
                           - 'cloudformation:DeleteStack'
@@ -343,8 +343,8 @@ Resources:
                           - 'cloudformation:SetStackPolicy'
                           - 'cloudformation:SetStackPolicy'
                           - 'cloudformation:ValidateTemplate'
-                        Resource: 
-                          - !Sub 'arn:aws:cloudformation:${AWS::Region}:${AWS::AccountId}:stack/platform-consumer*/*'
+                        Resource:
+                          - !Sub 'arn:aws:cloudformation:${AWS::Region}:${AWS::AccountId}:stack/elevey-bot*/*'
                           - !Sub 'arn:aws:cloudformation:${AWS::Region}:aws:transform/Serverless-2016-10-31'
 
 

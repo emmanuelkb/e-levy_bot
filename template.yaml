@@ -5,32 +5,21 @@ Globals:
   Function:
     Environment:
       Variables:
-        db_host: DEVOPS-PLAYGROUND-DB-HOST
-        db_read_host: DEVOPS-PLAYGROUND-DB-HOST
-        db_user: DEVOPS-PLAYGROUND-DB-USER
-        db_pswd: DEVOPS-PLAYGROUND-DB-PSWD
-        db: DEVOPS-PLAYGROUND-DB
+        consumer_key: consumer_key
+        consumer_secret: consumer_secret
+        bearer_token: bearer_token
+        access_token: access_token
+        token_secret: token_secret
+        twitter_base_url: "https://api.twitter.com/2/"
 Resources:
-  PlatformConsumer:
+  ELevyBot:
     Type: AWS::Serverless::Function
     Properties:
       CodeUri: .
-      Handler: app/platform_consumer.lambda_handler
+      Handler: app/main.lambda_handler
       Runtime: python3.8
-      FunctionName: PlatformConsumer
+      FunctionName: e_levy_bot
       MemorySize: 512
       Timeout: 900
       Policies:
         - AmazonSSMFullAccess
-        - AmazonSQSFullAccess
-      Events:
-        SQSEventForUser:
-          Type: SQS
-          Properties:
-            Queue: 'arn:aws:sqs:eu-west-1:727804883967:platform-data-aggregation-test'
-            BatchSize: 10
-            Enabled: true
-      Environment:
-        Variables:
-          log_grp: testloggroup
-          log_stream: platform-consumer
