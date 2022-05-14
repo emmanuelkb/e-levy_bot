@@ -3,7 +3,7 @@ from datetime import datetime, timedelta
 
 
 def get_mentions(twitter_module):
-    time = {'start_time': (datetime.utcnow() - timedelta(minutes=10)).strftime('%Y-%m-%dT%H:%M:%SZ')}
+    time = {'start_time': (datetime.utcnow() - timedelta(minutes=2)).strftime('%Y-%m-%dT%H:%M:%SZ')}
     response = twitter_module.get_mentions(time)
     if response['meta']['result_count'] == 0:
         return
