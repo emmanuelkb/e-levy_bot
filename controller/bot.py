@@ -3,7 +3,7 @@ import re
 
 
 def get_mentions(twitter_module):
-    time = {'start_time': (datetime.utcnow() - timedelta(minutes=100)).strftime('%Y-%m-%dT%H:%M:%SZ')}
+    time = {'start_time': (datetime.utcnow() - timedelta(minutes=2)).strftime('%Y-%m-%dT%H:%M:%SZ')}
     response = twitter_module.get_mentions(time)
     print(response)
     if response['meta']['result_count'] == 0:
@@ -12,9 +12,9 @@ def get_mentions(twitter_module):
     print(mentions)
     response = list(map(calculate_levy, mentions))
     print(response)
-    # for res in response:
-    #     body = {"text": res['response'], "reply": {"in_reply_to_tweet_id": res['id']}}
-    #     print(twitter_module.reply_mention(body))
+    for res in response:
+        body = {"text": res['response'], "reply": {"in_reply_to_tweet_id": res['id']}}
+        print(twitter_module.reply_mention(body))
 
 
 def calculate_levy(mention):
