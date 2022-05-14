@@ -1,5 +1,5 @@
-import json
 from datetime import datetime, timedelta
+import re
 
 
 def get_mentions(twitter_module):
@@ -10,17 +10,19 @@ def get_mentions(twitter_module):
     mentions = response['data']
     print(mentions)
     response = list(map(calculate_levy, mentions))
-    for res in response:
-        body = {"text": res['response'], "reply": {"in_reply_to_tweet_id": res['id']}}
-        print(twitter_module.reply_mention(body))
+    print(response)
+    # for res in response:
+    #     body = {"text": res['response'], "reply": {"in_reply_to_tweet_id": res['id']}}
+    #     print(twitter_module.reply_mention(body))
 
 
 def calculate_levy(mention):
-    try:
-        amount = int(mention['text'].replace('@e_levy_bot', ''))
-    except ValueError as err:
-        return {'id': mention['id'], 'response': 'Enter a number only.'}
+    amount = re.findall(r"[-+]?(?:\d*\.\d+|\d+)", mention['text'])
+    if amount:
+        amount = float(amount[0])
+    else:
+        return {'id': mention['id'], 'response': 'Aloha'}
     if amount <= 100:
-        return {'id': mention['id'], 'response': 'Stupid tax, No charge.'}
+        return {'id': mention['id'], 'response': 'No charge... for now.'}
     charge = (amount - 100) * 0.015
-    return {'id': mention['id'], 'response': f'Stupid tax. You will be charged {charge} cedis'}
+    return {'id': mention['id'], 'response': f'Stupid tax. You will be charged {charge:.2f} cedis'}
