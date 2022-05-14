@@ -11,9 +11,9 @@ def get_mentions(twitter_module):
     print(mentions)
     response = list(map(calculate_levy, mentions))
     print(response)
-    # for res in response:
-    #     body = {"text": res['response'], "reply": {"in_reply_to_tweet_id": res['id']}}
-    #     print(twitter_module.reply_mention(body))
+    for res in response:
+        body = {"text": res['response'], "reply": {"in_reply_to_tweet_id": res['id']}}
+        print(twitter_module.reply_mention(body))
 
 
 def calculate_levy(mention):
